@@ -25,8 +25,12 @@ pip install -r requirements.txt
 ## Run
 
 ```bash
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --reload-dir app --port 8800
 ```
+
+`--reload-dir app` limits the file watcher to `app/` so virtualenvs are not observed (avoids reload loops from `site-packages`). Use `--port 8800` if you open Swagger at `http://127.0.0.1:8800/docs` (default Uvicorn port is 8000).
+
+If you see **Address already in use**, a previous server is still bound to that port—often because **Ctrl+Z** suspended it instead of stopping it. In that shell run `fg` then **Ctrl+C**, or `kill %1` (or the PID shown by `jobs -l`) to end the suspended job, then start Uvicorn again.
 
 ## Test
 
@@ -405,4 +409,5 @@ $ curl -s http://127.0.0.1:8800/health
 
 ## Video Walkthrough
 
-<!-- TODO: Add Loom link -->
+- [Part 1 — Service demo, degraded mode, failure scenarios](https://www.loom.com/share/e3b3dbc0440848a3b35ab809df2e30d1)
+- [Part 2 — Transient recovery, health metrics, implementation decisions](https://www.loom.com/share/c36969f510fd4fc49a26e0c36b34a06d)
